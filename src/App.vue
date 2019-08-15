@@ -1,8 +1,9 @@
 <template>
   <div id="app">
-    <router-link v-if="isLoggedIn" to="home">home</router-link>
-    <router-link v-if="isLoggedIn" to="test">test</router-link>
-    <router-link  to="login">{{ (isLoggedIn) ? 'Se déconnecter' : 'Connexion'}}</router-link>
+    <router-link v-if="isLoggedIn" :to="{ name: 'home'}">Home</router-link>
+    <router-link v-if="isLoggedIn" :to="{ name: 'niko-niko'}">Niko-Niko</router-link>
+    <router-link v-if="isLoggedIn" :to="{ name: 'questions'}">Questions</router-link>
+    <router-link  v-if="isLoggedIn" :to="{ name: 'login'}">Se déconnecter</router-link>
     <router-view/>
   </div>
 </template>
