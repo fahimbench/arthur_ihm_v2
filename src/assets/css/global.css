@@ -27,6 +27,30 @@ nav.menu a.router-link-exact-active{
 }
 
 /*---------------------------------------------
+-------------Reconnexion-----------------------
+---------------------------------------------*/
+.rc-contenu {
+    display:flex;
+    align-items:center;
+    justify-content: center;
+    position:fixed;
+    min-width: 100vw;
+    min-height:100vh;
+    background-color:rgba(0,0,0,0.7);
+    top:0;
+    left:0
+}
+.rc-content {
+    display:flex;
+    flex-direction:column;
+    background-color: white;
+    min-height:300px;
+    width:100%;
+    max-width:400px;
+    margin: 0 10px 0 10px;
+    align-items: center
+}
+/*---------------------------------------------
 -------------------- Login --------------------
 ----------------------------------------------*/
 .wrapper {

@@ -1,9 +1,12 @@
 <template>
   <div id="app">
-    <router-link v-if="isLoggedIn" :to="{ name: 'home'}">Home</router-link>
-    <router-link v-if="isLoggedIn" :to="{ name: 'niko-niko'}">Niko-Niko</router-link>
-    <router-link v-if="isLoggedIn" :to="{ name: 'questions'}">Questions</router-link>
-    <router-link  v-if="isLoggedIn" :to="{ name: 'login'}">Se déconnecter</router-link>
+    <nav class="menu">
+      <router-link v-if="isLoggedIn" :to="{ name: 'home'}"><i class="material-icons">home</i></router-link>
+      <router-link v-if="isLoggedIn" :to="{ name: 'niko-niko'}"><i class="material-icons">tag_faces</i></router-link>
+      <router-link v-if="isLoggedIn" :to="{ name: 'questions'}"><i class="material-icons">question_answer</i></router-link>
+      <router-link  v-if="isLoggedIn" :to="{ name: 'login'}"><i class="material-icons">exit_to_app</i></router-link>
+    </nav>
+    <span v-if="Status">{{Status}}</span>
     <router-view/>
   </div>
 </template>
