@@ -1,0 +1,200 @@
+body {
+    background-color: #576379;
+}
+/*a:link, a:visited, a:active, a:focus {*/
+/*    text-decoration: none;*/
+/*}*/
+#app {
+    display:flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+/*---------------------------------------------
+------------------ Menu -----------------------
+----------------------------------------------*/
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+
+#top {
+    display: flex;
+    justify-content: center;
+    width:100%;
+    background-color: #5f6e83;
+    color:white;
+}
+#top > .content {
+    display: flex;
+    justify-content: space-between;
+    min-height: 100px;
+    width: 100%;
+    max-width: 1280px;
+}
+
+#top .brand {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size:24px;
+    margin-left: 10px;
+    font-weight: bold;
+    color:white;
+}
+#top a{
+    color:white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#top .user {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#top .user a {
+    display: flex;
+    flex-direction: column;
+    height:100%;
+    min-height: 60px;
+    min-width: 110px;
+    width:100%;
+    max-width: 110px;
+    padding-top: 5px;
+    color:white;
+    outline: none;
+    text-align: center;
+    background-color: #deac2f;
+}
+#top .user .profile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width:100px;
+}
+#top .picture img {
+    max-width: 60px;
+    border-radius: 50%;
+    border: 1px solid black;
+    z-index: 0;
+}
+#top .profile:hover::after {
+    content:attr(data-title);
+    z-index: 1;
+    margin-top:70px;
+    position:absolute;
+    text-align: center;
+    padding: 5px;
+    min-width:50px;
+    border-radius: 5px;
+    background-color:rgba(0,0,0, 0.7);
+}
+nav.menu{
+    display: flex;
+    justify-content: center;
+    width:100%;
+    max-width: 780px;
+}
+
+nav.menu a{
+    display: flex;
+    flex-direction: column;
+    height:100%;
+    min-height: 60px;
+    min-width: 70px;
+    width:100%;
+    max-width: 110px;
+    padding-top: 5px;
+    color:white;
+    outline: none;
+    text-align: center;
+}
+
+nav.menu a.router-link-exact-active{
+    background-color: #deac2f;
+    color:white;
+}
+nav.menu a:hover{
+    font-weight: bold;
+}
+/*@media (max-width:600px){*/
+/*    nav.menu {*/
+/*        display:none*/
+/*    }*/
+/*}*/
+
+/*---------------------------------------------
+-------------Reconnexion-----------------------
+---------------------------------------------*/
+.rc-contenu {
+    display:flex;
+    align-items:center;
+    justify-content: center;
+    position:fixed;
+    min-width: 100vw;
+    min-height:100vh;
+    background-color:rgba(0,0,0,0.7);
+    top:0;
+    left:0
+}
+.rc-content {
+    display:flex;
+    flex-direction:column;
+    background-color: white;
+    min-height:300px;
+    width:100%;
+    max-width:400px;
+    margin: 0 10px 0 10px;
+    align-items: center
+}
+/*---------------------------------------------
+-------------------- Login --------------------
+----------------------------------------------*/
+.wrapper {
+    margin-top: 80px;
+    margin-bottom: 80px;
+}
+
+.form-signin {
+    max-width: 380px;
+    padding: 15px 35px 45px;
+    margin: 0 auto;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+    margin-bottom: 30px;
+}
+.form-signin .checkbox {
+    font-weight: normal;
+}
+.form-signin .form-control {
+    position: relative;
+    font-size: 16px;
+    height: auto;
+    padding: 10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+.form-signin input[type="text"] {
+    margin-bottom: -1px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.form-signin input[type="password"] {
+    margin-bottom: 20px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+/**---------------------------------------
+
+ */
