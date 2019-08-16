@@ -1,5 +1,6 @@
 import { authService } from '../../_services/auth.service'
 import router from "../../_helpers/router";
+import jwtDecode from "jwt-decode"
 
 export const authModule = {
     namespaced: true,
@@ -13,6 +14,7 @@ export const authModule = {
     getters: {
         isLoggedIn: state => !!state.token,
         remember: state => state.remember,
+        authUsername: state => state.user.username,
         authStatus: state => state.status
     },
     mutations: {
@@ -41,7 +43,8 @@ export const authModule = {
             authService.login(username, password, remember).then(
                 success => {
                     let refresh = (success.refresh_token) ? success.refresh_token : ''
-                    commit('loginSuccess', { token: success.token, remember: refresh, user: {name:'test1'}})
+                    let decode = jwtDecode(success.token);
+                    commit('loginSuccess', { token: success.token, remember: refresh, user: {username: decode.username}})
                     router.push('/')
                 },
                 error => {
@@ -55,7 +58,8 @@ export const authModule = {
             authService.reload(accessToken).then(
                 success => {
                     let refresh = (accessToken.refresh_token) ? accessToken.refresh_token : ''
-                    commit('loginSuccess', { token: accessToken.token, remember: refresh, user: {name:'test1'}})
+                    let decode = jwtDecode(accessToken.token);
+                    commit('loginSuccess', { token: accessToken.token, remember: refresh, user: {username:decode.username}})
                 },
                 error => {
                     dispatch('logout')
