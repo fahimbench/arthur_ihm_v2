@@ -2,8 +2,9 @@ import  Vue  from  'vue'
 import  Router  from  'vue-router'
 import  Home  from '../views/Home.vue'
 import  Login  from '../views/Login.vue'
-import  NikoNiko  from '../views/Login.vue'
-import  Questions  from '../views/Login.vue'
+import  NikoNiko  from '../views/NikoNiko.vue'
+import  Questions  from '../views/Questions.vue'
+import  Reconnect  from '../views/rc.vue'
 import {authService} from "../_services/auth.service";
 
 Vue.use(Router)
@@ -13,24 +14,24 @@ const router = new  Router({
     base:  process.env.BASE_URL,
     routes: [
         {
-            path: '/feature',
-            children: [
-                {
-                    path: 'niko-niko',
-                    name: 'niko-niko',
-                    component: NikoNiko
-                },
-                {
-                    path: 'questions',
-                    name: 'questions',
-                    component: Questions
-                }
-            ]
+            path: '/niko-niko',
+            name: 'niko-niko',
+            component: NikoNiko
+        },
+        {
+            path: '/questions',
+            name: 'questions',
+            component: Questions
         },
         {
             path:  '/login',
             name:  'login',
             component:  Login
+        },
+        {
+            path: '/rc',
+            name: 'rc',
+            component: Reconnect
         },
         {
             path:  '/',
@@ -46,7 +47,7 @@ const router = new  Router({
 })
 
 router.beforeEach((to,from,next) => {
-    authService.testRoute(to,from,next)
+    authService.testRoute(to)
     next()
 });
 
