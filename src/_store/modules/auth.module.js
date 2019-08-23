@@ -15,7 +15,8 @@ export const authModule = {
         isLoggedIn: state => !!state.token,
         remember: state => state.remember,
         authUsername: state => state.user.username,
-        authStatus: state => state.status
+        authStatus: state => state.status,
+        authRoles: state => state.user.roles
     },
     mutations: {
         loginRequest(state) {
@@ -44,7 +45,7 @@ export const authModule = {
                 success => {
                     let refresh = (success.refresh_token) ? success.refresh_token : ''
                     let decode = jwtDecode(success.token);
-                    commit('loginSuccess', { token: success.token, remember: refresh, user: {username: decode.username}})
+                    commit('loginSuccess', { token: success.token, remember: refresh, user: {username: decode.username, roles: decode.roles}})
                     router.push('/')
                 },
                 error => {
@@ -59,7 +60,7 @@ export const authModule = {
                 success => {
                     let refresh = (accessToken.refresh_token) ? accessToken.refresh_token : ''
                     let decode = jwtDecode(accessToken.token);
-                    commit('loginSuccess', { token: accessToken.token, remember: refresh, user: {username:decode.username}})
+                    commit('loginSuccess', { token: accessToken.token, remember: refresh, user: {username:decode.username, roles: decode.roles}})
                 },
                 error => {
                     dispatch('logout')

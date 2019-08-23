@@ -1,13 +1,103 @@
 body {
+    z-index: 0;
     background-color: #576379;
+    box-sizing: border-box;
 }
-/*a:link, a:visited, a:active, a:focus {*/
-/*    text-decoration: none;*/
-/*}*/
+::placeholder{
+    color:#aab4c0;
+}
+select {
+    padding: 5px;
+    font-size: 16px;
+    line-height: 1;
+    border: 0;
+    border-radius: 5px;
+    height: 34px;
+    background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png) no-repeat right #ddd;
+    appearance: none;
+}
 #app {
     display:flex;
+    align-items: center;
     justify-content: center;
     flex-direction: column;
+}
+
+#content {
+    margin-top:20px;
+    width:100%;
+    max-width: 1280px;
+}
+
+/*--------------------------------------------
+----------------FORM--------------------------
+--------------------------------------------*/
+button:focus, input:focus, select:focus{
+    outline: none;
+}
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-text {
+    border: none;
+    background-color: #5c647b;
+    height:54px;
+    color:white;
+}
+
+.input-text:focus {
+    box-shadow: inset 1px 1px 10px rgba(0,0,0,0.1), inset -1px -1px 10px rgba(0,0,0,0.1);
+}
+
+.input-date {
+    border: none;
+    background-color: #5c647b;
+    height:54px;
+    color:white;
+}
+.select {
+    border: none;
+    background-color: #5c647b;
+    height:54px;
+    color:white;
+}
+
+
+/* BUTTON */
+.input-button {
+    background-color: #deac2f;
+    border:none;
+    width:100%;
+    padding: 15px 0 15px 0;
+    color:white;
+    font-weight: bold;
+    box-shadow: 2px 2px 5px rgba(0,0,0,.5);
+}
+.input-button:active{
+    box-shadow: inset 2px 2px 5px rgba(0,0,0,.5);
+}
+
+.formbuttonrestricted{
+    max-width: 60px
+}
+/*--------------------------------------------
+-----------Footer-----------------------------
+--------------------------------------------*/
+footer {
+    margin: 30px 0 15px 0;
+    color:white;
+}
+
+footer a {
+    color:white;
+    font-weight: bold;
+}
+
+footer a:hover{
+    color:white;
+    text-decoration: underline;
 }
 
 /*---------------------------------------------
@@ -42,10 +132,18 @@ body {
     font-weight: bold;
     color:white;
 }
+#top .brand a:hover {
+    color: white;
+}
+
 #top a{
     color:white;
     text-decoration: none;
     font-weight: bold;
+}
+
+#top a:hover{
+    color:#2c323a;
 }
 
 #top .user {
@@ -66,7 +164,10 @@ body {
     color:white;
     outline: none;
     text-align: center;
-    background-color: #deac2f;
+}
+
+#top .user a:hover {
+    color:#2c323a;
 }
 #top .user .profile {
     display: flex;
@@ -74,6 +175,7 @@ body {
     justify-content: center;
     align-items: center;
     min-width:100px;
+    cursor: pointer;
 }
 #top .picture img {
     max-width: 60px;
@@ -120,36 +222,7 @@ nav.menu a.router-link-exact-active{
 nav.menu a:hover{
     font-weight: bold;
 }
-/*@media (max-width:600px){*/
-/*    nav.menu {*/
-/*        display:none*/
-/*    }*/
-/*}*/
 
-/*---------------------------------------------
--------------Reconnexion-----------------------
----------------------------------------------*/
-.rc-contenu {
-    display:flex;
-    align-items:center;
-    justify-content: center;
-    position:fixed;
-    min-width: 100vw;
-    min-height:100vh;
-    background-color:rgba(0,0,0,0.7);
-    top:0;
-    left:0
-}
-.rc-content {
-    display:flex;
-    flex-direction:column;
-    background-color: white;
-    min-height:300px;
-    width:100%;
-    max-width:400px;
-    margin: 0 10px 0 10px;
-    align-items: center
-}
 /*---------------------------------------------
 -------------------- Login --------------------
 ----------------------------------------------*/
@@ -196,5 +269,100 @@ nav.menu a:hover{
 }
 
 /**---------------------------------------
+------------Content-----------------------
+ ----------------------------------------*/
+
+
+
+/* BLOCKS */
+#content .blocks{
+    overflow: hidden;
+    display: flex;
+    margin:30px 0 0 0;
+    padding: 0 0 0 30px;
+    flex-wrap: wrap;
+    width:100%;
+}
+/* content part 1 block */
+#content .part {
+    display: flex;
+    flex-direction: column;
+    flex:1 1 420px;
+    background-color: #4e5b6c;
+    margin: 30px 30px 0 0;
+    padding: 35px;
+    width: 100%;
+    position: relative;
+}
+/* content part 1 block */
+#content .part form .title{
+    font-weight: bold;
+    font-size: 16px;
+    color:white;
+    margin: 10px 0 10px 0;
+}
+#content .part > .title{
+    font-weight: bold;
+    font-size: 25px;
+    color:white;
+    margin-bottom:15px;
+}
+
+/**---------------------------------
+---------------------Table --------
+----------------------------------*/
+table {
+    width:100%;
+    z-index:0;
+}
+
+table thead{
+    color:white;
+    font-weight: bold;
+    background-color: #535f77;
+    text-transform: uppercase;
+    height:50px;
+    display: flex;
+}
+table tbody {
+    display: block;
+    max-height:400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+table tbody tr {
+    color:white;
+    display: flex;
+    background-color: #5b677d;
+    min-height:50px;
+    margin-top:1px;
+    font-weight: bold;
+}
+table tbody tr td {
+    flex:1;
+    display: flex;
+    align-self: center;
+}
+
+table tbody tr td.delete{
+    max-width: 50px;
+    display: flex;
+    justify-content: flex-end;
+}
+table tbody tr td a.trash {
+    max-width: 50px;
+    color:white;
+}
+
+table tbody tr td a.trash:hover {
+    color: #deac2f;
+    text-decoration: none;
+}
+
+/**fdfdsfdsfsfdsf
+
 
  */
+
+
+

@@ -26,12 +26,17 @@
               <div>Questions</div>
             </div>
           </router-link>
-
+          <router-link v-if="superadmin" :to="{ name: 'test'}">
+            <div class="nav-content">
+              <i class="material-icons md-48">desktop_windows</i>
+              <div>Test</div>
+            </div>
+          </router-link>
         </nav>
         <div class="user">
-          <div class="profile" v-bind:data-title="username">
+          <!--<div class="profile" v-bind:data-title="username">
             <div class="picture"><img src="./assets/img/me.png"></div>
-          </div>
+          </div>-->
           <router-link :style="(isLoggedIn) ? 'display: block' : 'display:none'" :to="{ name: 'login'}">
             <i class="material-icons md-48">exit_to_app</i>
             <div>logout</div>
@@ -40,13 +45,15 @@
       </div>
     </div>
     <!--    <span v-if="Status">{{Status}}</span>-->
-    <router-view/>
+    <div id="content">
+      <router-view/>
+    </div>
+    <footer>Copyright &copy; <a href="https://fahim-benchaabane.fr" target="_blank">Fahim Benchaabane</a></footer>
   </div>
 </template>
 
 <script>
   import store from './_store'
-  import $ from 'jquery'
 
   export default {
     computed: {
@@ -58,10 +65,13 @@
       },
       username(){
         return store.getters['authModule/authUsername']
+      },
+      superadmin(){
+        if(store.getters['authModule/authRoles'] !== undefined){
+          return store.getters['authModule/authRoles'].includes('ROLE_SUPER_ADMIN')
+        }
+        return 0
       }
-    },
-    mounted: function() {
-      $('[data-toggle="tooltip"]').tooltip()
     }
   }
 </script>

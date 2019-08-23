@@ -3,8 +3,8 @@ import  Router  from  'vue-router'
 import  Home  from '../views/Home.vue'
 import  Login  from '../views/Login.vue'
 import  NikoNiko  from '../views/NikoNiko.vue'
+import  Test  from '../views/Test.vue'
 import  Questions  from '../views/Questions.vue'
-import  Reconnect  from '../views/rc.vue'
 import {authService} from "../_services/auth.service";
 
 Vue.use(Router)
@@ -13,6 +13,11 @@ const router = new  Router({
     mode:  'history',
     base:  process.env.BASE_URL,
     routes: [
+        {
+          path:'/test',
+          name: 'test',
+          component: Test
+        },
         {
             path: '/niko-niko',
             name: 'niko-niko',
@@ -31,7 +36,7 @@ const router = new  Router({
         {
             path: '/rc',
             name: 'rc',
-            component: Reconnect
+            component: Home
         },
         {
             path:  '/',
