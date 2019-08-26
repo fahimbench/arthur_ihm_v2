@@ -10,12 +10,60 @@ export const nikonikoModule = {
         },
         users:{
             status: '',
-            data: ''
+            data: {}
+        },
+        sendList:{
+            status: '',
+            data: {}
+        },
+        chartData:{
+            status: '',
+            participants: [],
+            scoreNull: [],
+            scoreBlank: [],
+            data: {
+                type: 'line',
+                data: {
+                    labels:[],
+                    datasets: [
+                        {
+                            data: [],
+                            backgroundColor: [
+                                'rgba(0,0,0,0)'
+                            ],
+                            borderColor: [
+                                '#47b784',
+                            ],
+                            borderWidth: 3
+                        }
+                    ]
+                },
+                options: {
+                    legend: false,
+                    responsive: true,
+                    lineTension: 1,
+                    title: {
+                        display: true,
+                        text: ''
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                min:0,
+                                max:100,
+                            }
+                        }]
+                    }
+                }
+            }
         }
     },
     getters: {
         getAllGroups: state => state.groups,
-        getAllUsers: state => state.users
+        getAllUsers: state => state.users,
+        getAllSendList: state => state.sendList,
+        getAllChartData: state => state.chartData
     },
     mutations: {
         groupsLoading(state){
@@ -37,12 +85,37 @@ export const nikonikoModule = {
         usersSuccess(state, payload){
             state.users.data = payload.data
             state.users.status = 'success'
+        },
+        sendListLoading(state){
+            state.sendList.status = 'loading'
+        },
+        sendListError(state){
+            state.sendList.status = 'error'
+        },
+        sendListSuccess(state, payload){
+            state.sendList.data = payload.data
+            state.sendList.status = 'success'
+        },
+        chartDataLoading(state){
+            state.chartData.status = 'loading'
+        },
+        chartDataError(state){
+            state.chartData.status = 'error'
+        },
+        chartDataSuccess(state, payload){
+            state.chartData.data.data.labels = JSON.parse(payload.data).data.labels
+            state.chartData.data.data.datasets[0].data = JSON.parse(payload.data).data.data
+            state.chartData.data.options.title.text = JSON.parse(payload.data).data.text.toUpperCase()
+            state.chartData.participants = JSON.parse(payload.data).data.participants
+            state.chartData.scoreNull = JSON.parse(payload.data).data.abstention
+            state.chartData.scoreBlank = JSON.parse(payload.data).data.blank
+            state.chartData.status = 'success'
         }
     },
     actions: {
-        allGroups({commit}){
+        async allGroups({commit}){
             commit('groupsLoading')
-            nikonikoService.getAllGroups().then(
+            await nikonikoService.getAllGroups().then(
                 success => {
                     commit('groupsSuccess', success)
                 },
@@ -83,7 +156,28 @@ export const nikonikoModule = {
                     commit('usersError')
                 }
             )
+        },
+        allSendList({commit}){
+            commit('sendListLoading')
+            nikonikoService.getAllSendList().then(
+                success => {
+                    commit('sendListSuccess', success)
+                },
+                error => {
+                    commit('sendListError')
+                }
+            )
+        },
+        async allChartData({commit}, {group, dateStart, dateEnd, exp}){
+            commit('chartDataLoading')
+            await nikonikoService.getAllChartData(group, dateStart, dateEnd, exp).then(
+                success => {
+                        commit('chartDataSuccess', success)
+                },
+                error => {
+                    commit('chartDataError')
+                }
+            )
         }
-
     }
 }

@@ -26,6 +26,18 @@
                 <div class="title">
                     Graphique
                 </div>
+
+                <canvas id="nikonikochart" style="background-color: white;"  height="150" width="300"></canvas>
+
+
+                <div class="d-flex chart-panel">
+                    <select class="select" @change="chartFilter" v-model="chart.select">
+                        <option :key="item.id" :value="item.id" v-for="item in allGroups.data['hydra:member']">{{item.name}}</option>
+                    </select>
+                    <input type="date" class="input-date" @change="chartFilter" v-model="chart.dateStart">
+                    <input type="date" class="input-date" @change="chartFilter" v-model="chart.dateEnd">
+                    <button type="button" class="input-button restricted-export-btn" @click="openExport">Export</button>
+                </div>
             </div>
         </div>
         <div class="blocks">
@@ -42,7 +54,7 @@
                             <multiselect v-model="groups.users" placeholder="Choisir des apprenants..." :multiple="true"  label="real_name" track-by="real_name" :options="allUsers" :option-height="104" :show-labels="false">
                                 <template slot="tag" scope="props" >
                                   <span class="multiselect__tag">
-                                    <span><img :src="props.option.profile.image_24"></span>
+                                    <span><img class="rounded-circle" :src="props.option.profile.image_24"></span>
                                     <span>{{props.option.real_name}}</span>
                                       <i aria-hidden="true" tabindex="1" @click="props.remove(props.option)" class="multiselect__tag-icon"></i>
                                   </span>
@@ -120,6 +132,20 @@
                 <div class="title">
                     Liste des envois
                 </div>
+                <table>
+                    <thead>
+                    <tr>
+                        <td>groupes</td>
+                        <td>Date d'envoi</td>
+                    </tr>
+                    </thead>
+                    <tbody v-if="allSendList.status === 'success'">
+                    <tr :key="item.id" v-for="(item) in allSendList.data['hydra:member']" >
+                        <td>{{item.nikoNikoGroups.name}}</td>
+                        <td>{{convertDate(item.dateSend)}}</td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -129,6 +155,8 @@
     import $ from 'jquery'
     import Vue from 'vue'
     import Multiselect from 'vue-multiselect'
+    import Chart from 'chart.js'
+    import moment from 'moment'
 
     Vue.component('multiselect', Multiselect)
 
@@ -156,7 +184,13 @@
                         users:[]
                     }
                 },
-                searchGroups: '',
+                chart:{
+                    select: '',
+                    dateStart: '',
+                    dateEnd: '',
+                    data: null
+                },
+                searchGroups: ''
             }
         },
         computed: {
@@ -165,6 +199,9 @@
             },
             allUsers(){
                 return this.$store.getters['nikonikoModule/getAllUsers'].data.members || []
+            },
+            allSendList(){
+                return this.$store.getters['nikonikoModule/getAllSendList']
             },
             filteredListGroups() {
                 const allGroups = this.$store.getters['nikonikoModule/getAllGroups'].data['hydra:member'] || []
@@ -176,6 +213,9 @@
             },
             dateIgnore(){
                 return this.groups.ignore.data
+            },
+            allChartData(){
+                return this.$store.getters['nikonikoModule/getAllChartData']
             }
         },
         methods: {
@@ -210,8 +250,8 @@
                 element.dateStart = dateStart.val()
                 element.dateEnd = dateEnd.val()
                 this.groups.ignore.data.push(element)
-                dateStart.val("")
-                dateEnd.val("")
+                dateStart.val('')
+                dateEnd.val('')
             },
             sendGroup(){
                 const { name, date, ignore, users } = this.groups
@@ -228,7 +268,7 @@
                     return 0
                 }
                 this.$store.dispatch('nikonikoModule/addGroup', {name, date, ignore, users }).then(() => {
-                    this.groups.name = ""
+                    this.groups.name = ''
                     this.groups.date = {start:'', end:''}
                     this.groups.ignore = {ai:0, data:[]}
                 })
@@ -248,12 +288,57 @@
             },
             deleteGroup: function(e){
                 this.$store.dispatch('nikonikoModule/deleteGroup', {link: $(e.target).parent().data("link")})
+            },
+            chartFilter: function(exp){
+                const {select, dateStart, dateEnd} = this.chart
+                if(exp !== true){
+                    exp = false;
+                }
+
+                this.$store.dispatch('nikonikoModule/allChartData', {group: select, dateStart: dateStart, dateEnd: dateEnd, exp: exp}).then(
+                    () => {
+                        this.chart.data.data = this.allChartData.data.data
+                        this.chart.data.update()
+                    })
+            },
+            createChart(chartId, chartData) {
+                const ctx = document.getElementById(chartId)
+                this.chart.data = new Chart(ctx, chartData)
+                this.chart.data.update()
+            },
+            convertDate(date){
+                return moment(date).format('DD/MM/YYYY HH:mm:ss');
+            },
+            openExport(){
+                let data = this.allChartData
+                let csv = 'Nom du groupe\n' + data.data.options.title.text+'\n\n'
+                csv += 'date,score %, participants, null, blank\n'
+                for(let i = 0; i < data.data.data.labels.length; i++){
+                    csv += data.data.data.labels[i] + ',' + data.data.data.datasets[0].data[i] + ',' + data.participants[i] + ',' + data.scoreNull[i] + ',' + data.scoreBlank[i] + '\n'
+                }
+                let hiddenElement = document.createElement('a')
+                hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv)
+                hiddenElement.target = '_blank'
+                hiddenElement.download = 'people.csv'
+                if (typeof hiddenElement.download != "undefined") {
+                    document.body.appendChild(hiddenElement)
+                    hiddenElement.click()
+                    document.body.removeChild(hiddenElement)
+                }
+
             }
         },
         mounted(){
-            this.$store.dispatch('nikonikoModule/allGroups')
+            this.$store.dispatch('nikonikoModule/allGroups').then(() => this.chart.select = this.allGroups.data['hydra:member'][0].id)
             this.$store.dispatch('nikonikoModule/allUsers')
-        }
+            this.$store.dispatch('nikonikoModule/allSendList')
+            this.$store.dispatch('nikonikoModule/allChartData', {group: null, dateStart: null, dateEnd: null, export: false}).then(() => {
+                this.createChart('nikonikochart', this.allChartData.data)
+                this.chart.data.update()
+            })
+        },
+
     }
+
 </script>
 

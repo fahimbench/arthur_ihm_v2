@@ -18,12 +18,11 @@
 
                         <tr :key="item.id" v-for="(item) in allLadders.data['hydra:member']">
 
-                            <td><img :src="allUsers.data['members'].find(x => x.id === item.user).profile.image_24">&nbsp;{{allUsers.data['members'].find(x => x.id === item.user).real_name}}</td>
+                            <td><img class="rounded-circle ml-1" :src="allUsers.data['members'].find(x => x.id === item.user).profile.image_24">&nbsp;{{allUsers.data['members'].find(x => x.id === item.user).real_name}}</td>
                             <td>{{ item.score }}</td>
                             <td>{{ item.dateSend }}</td>
                         </tr>
 
-<!--                    {{allUsers.data['members'].find(x => x.id === item.user)}}-->
                     </tbody>
                 </table>
 
