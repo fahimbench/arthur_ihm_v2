@@ -48,7 +48,7 @@
     <div id="content">
       <router-view/>
     </div>
-    <footer>Copyright &copy; <a href="https://fahim-benchaabane.fr" target="_blank">Fahim Benchaabane</a></footer>
+    <footer>Réalisé par <a href="https://fahim-benchaabane.fr" target="_blank">Fahim Benchaabane</a></footer>
   </div>
 </template>
 
