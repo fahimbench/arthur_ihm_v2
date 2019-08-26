@@ -1,0 +1,70 @@
+.date-start-end{
+    display: flex;
+    flex-direction: column;
+}
+.date-start-end-choice {
+    display: flex;
+}
+.date-start-end-choice .input-date{
+    flex:1;
+}
+
+.users {
+    margin:5px;
+    border:2px dashed #5c647b;
+    padding:5px;
+}
+.users .user {
+    background-color: white;
+    border: none;
+    padding: 5px;
+    margin:3px;
+    border-radius: 3px;
+}
+.date-start-end {
+    display: flex;
+    margin: 10px 0 10px 0;
+}
+.date-start-end .input-date{
+    flex: 1;
+}
+.filter-group {
+    display: flex;
+    flex-direction: column;
+}
+.filter-date-ignore {
+    display: flex;
+    flex-direction: column;
+}
+
+.date-ignore {
+    display: flex;
+}
+
+.date-ignore .input-date, .date-ignore button{
+    flex: 1;
+}
+
+.formbuttonrestricted{
+    max-width: 60px
+}
+.ignored {
+    margin:5px;
+    border:2px dashed #5c647b;
+    padding:5px;
+}
+.ignored .date {
+    background-color: white;
+    border: none;
+    padding: 5px;
+    border-radius: 3px;
+    margin: 3px;
+}
+.chart-panel *{
+    flex: 1;
+    margin: 5px 5px 0 0
+}
+.restricted-export-btn {
+    max-width: 100px;
+}
+

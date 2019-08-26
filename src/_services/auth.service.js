@@ -1,6 +1,7 @@
 import axios from 'axios'
 import store from "../_store";
 import router from "../_helpers/router";
+import Vue from "vue"
 
 export const authService = {
     login,
@@ -35,6 +36,7 @@ function login(username, password, remember){
                 resolve(JSON.parse(localStorage.getItem('user')))
             })
             .catch((err) => {
+                Vue.toasted.show('Nom d\'utilisateur ou mot de passe incorrect', { position: 'bottom-right', type: 'error', theme:'outline', icon: 'sentiment_dissatisfied',  duration : 5000})
                 reject(err)
             })
     })
@@ -107,17 +109,24 @@ function testRoute(to){
 function logout(type){
     if(!type && !!JSON.parse(localStorage.getItem('user')).refresh_token){
         reloadRemember(JSON.parse(localStorage.getItem('user')).refresh_token)
-            .then(() => router.push('/rc'))
+            .then(() => {
+                router.push('/rc')
+                router.push('/')
+                Vue.toasted.show('Un problème est survenu avec votre jeton de connection et heureusement que votre session a été concervé ...', { position: 'bottom-right', type: 'info', theme:'outline', icon: 'sentiment_very_satisfied',  duration : 8000})
+            })
             .catch(() => {
                 deleteInfos()
                 if (router.currentRoute.path !== '/login') {
                     router.push('/login')
+                    Vue.toasted.show('Un problème est survenu, vous avez été déconnecté ...', { position: 'bottom-right', type: 'error', theme:'outline', icon: 'sentiment_dissatisfied',  duration : 5000})
                 }
             })
     } else {
         deleteInfos();
         if (router.currentRoute.path !== '/login') {
             router.push('/login')
+            Vue.toasted.show('vous avez été déconnecté avec succés !', { position: 'bottom-right', type: 'success', theme:'outline', icon: 'sentiment_very_satisfied',  duration : 5000})
+
         }
     }
 }
